@@ -13,7 +13,7 @@ pipeline {
   //   IMAGE_TAG  = "v${env.BUILD_NUMBER}"
   // }
 
-  // stages {
+  stages {
   //   stage('Checkout') {
   //     steps { checkout(scm) }               // Dockerfile at repo root
   //   }
@@ -33,7 +33,7 @@ pipeline {
   //       }
   //     }
   //   }
-  // }
+  }
 
   post {
     success {
