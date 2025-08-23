@@ -40,7 +40,7 @@ pipeline {
       echo "Image pushed: ${env.IMAGE_FULL}:${env.IMAGE_TAG} (and :latest)"
       echo "Run on your desktop (X11):"
       echo "  xhost +local:docker"
-      echo "  docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw ${env.IMAGE_FULL}:latest"
+      echo '  docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw ${env.IMAGE_FULL}:latest'
     }
     failure { echo "Build failed; check stage logs." }
   }
