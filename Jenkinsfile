@@ -1,10 +1,10 @@
 pipeline {
-  // agent {
-  //   kubernetes {
-  //     inheritFrom 'maven'          // your Pod Template (jnlp + kaniko)
-  //     defaultContainer 'jnlp'
-  //   }
-  // }
+  agent {
+    kubernetes {
+      inheritFrom 'maven'          // your Pod Template (jnlp + kaniko)
+      defaultContainer 'jnlp'
+    }
+  }
 
   // environment {
   //   REGISTRY   = "registry.jenkins.svc:5000"           
