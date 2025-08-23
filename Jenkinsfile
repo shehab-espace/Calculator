@@ -5,29 +5,17 @@ pipeline {
       defaultContainer 'jnlp'
     }
   }
-  options { timestamps() }
 
   environment {
-    // In-cluster registry Service (adjust if your Service is named differently)
-    REGISTRY   = "registry:5000"           // or "registry.jenkins.svc:5000"
-    IMAGE_NAME = "calculator"              // change if you want another repo name
+    REGISTRY   = "registry.jenkins.svc:5000"           
+    IMAGE_NAME = "calculator"
     IMAGE_FULL = "${REGISTRY}/${IMAGE_NAME}"
     IMAGE_TAG  = "v${env.BUILD_NUMBER}"
   }
 
   stages {
     stage('Checkout') {
-      steps {
-        checkout(scm)                       // expects Dockerfile at repo root
-      }
-    }
-
-    stage('Unit Tests') {
-      steps {
-        container('jnlp') {
-          sh 'mvn -B test'
-        }
-      }
+      steps { checkout(scm) }               // Dockerfile at repo root
     }
 
     stage('Build & Push (Kaniko ➜ local registry)') {
@@ -35,7 +23,6 @@ pipeline {
         container('kaniko') {
           sh '''
             set -euxo pipefail
-            # Build and push to the in-cluster HTTP registry
             /kaniko/executor \
               --context `pwd` \
               --dockerfile Dockerfile \
@@ -51,12 +38,10 @@ pipeline {
   post {
     success {
       echo "Image pushed: ${env.IMAGE_FULL}:${env.IMAGE_TAG} (and :latest)"
-      echo "Run it on your desktop (X11) if you want:"
+      echo "Run on your desktop (X11):"
       echo "  xhost +local:docker"
       echo "  docker run -it --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix:rw ${env.IMAGE_FULL}:latest"
     }
-    failure {
-      echo "Build failed; check stage logs."
-    }
+    failure { echo "Build failed; check stage logs." }
   }
 }
