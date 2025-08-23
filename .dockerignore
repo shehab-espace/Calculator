@@ -1,0 +1,26 @@
+# Git files
+.git
+.gitignore
+
+# IDE files
+.idea
+*.iml
+.vscode
+
+# Build artifacts
+target/
+*.jar
+*.war
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Screenshots (not needed for build)
+screenshots/
+
+# Test files (not needed for runtime)
+src/test/
